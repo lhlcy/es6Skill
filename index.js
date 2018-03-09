@@ -37,25 +37,46 @@ const maskname = (name) => {
 const maskTelephone = (phone) => {
     return phone.substr(0, 3) + '****' + phone.substr(7, 4)
 }
-const hideMobile = (mobile) =>{
-    if (!mobile || mobile.length != 11) {
-        return mobile;
-    }
-    return mobile.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
-},
+const hideMobile = (mobile) => {
+        if (!mobile || mobile.length != 11) {
+            return mobile;
+        }
+        return mobile.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+    },
 
 
-// 身份证掩码
-const maskID = (id) => {
-    let mid = '';
-    for (let i = 3; i < id.length - 3; i++) {
-        mid = mid + '*';
+    // 身份证掩码
+    const maskID = (id) => {
+        let mid = '';
+        for (let i = 3; i < id.length - 3; i++) {
+            mid = mid + '*';
+        }
+        return id.substr(0, 3) + mid + id.substr(id.length - 3, 3);
     }
-    return id.substr(0, 3) + mid + id.substr(id.length - 3, 3);
-}
-const hideId = (id) =>{
+const hideId = (id) => {
     if (!id || id.length != 18) {
         return id;
     }
     return id.replace(/(\d{3})\d{12}(\d{3}|\d{2}[X|x])/, '$1************$2');
 }
+
+// es8迭代器
+
+const justjavc = {
+    [Symbol.iterator]: () => {
+
+        const items = [`j`, `u`, `s`, `t`, `j`, `a`, `v`, `a`, `c`];
+        return {
+            next: () => Promise.resolve({
+                done: items.length === 0,
+                value: items.shift()
+            })
+        }
+    }
+}
+
+(async function () {
+    for await (const item of justjavc) {
+        console.log(item)
+    }
+})()
